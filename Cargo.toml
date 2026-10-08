@@ -1,0 +1,12 @@
+[package]
+name = "vim-digraph"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0 AND OPUBL-1.0"
+repository = "https://github.com/jeffs/vim-digraph"
+description = "Library and CLI for expanding Vim digraphs to Unicode characters"
+keywords = ["vim", "digraphs", "abbreviations", "text"]
+categories = ["command-line-utilities", "parsing", "text-processing"]
+
+[workspace.lints.clippy]
+pedantic = "deny"
