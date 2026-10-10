@@ -1,38 +1,14 @@
-//! CLI for mapping digraphs, codepoints, and aliaes to Unicode characters.
-//!
-//! See also the accompanying `README.md`.
-
-// # TODO
-//
-// * [] Support [emoticons](https://gist.github.com/jordanorelli/11229304)
-// * [] Support both "juicy" and dry variants; e.g., 🐸 vs 𓆏, or ♟️ vs ♟
-// * [] Figure out why Wezterm doesn't support [Egyptian hieroglyphs].
-//
-// [Egyptian hieroglyphs]: https://unicode-explorer.com/b/13000
+#![doc = include_str!("../../README.md")]
 
 use std::{env, process::ExitCode};
 
 use vim_digraph as vd;
 
-/// Attempts to parse the arg as a digraph, codepoint, or alias, in that order.
-fn parse_arg(arg: &str) -> Option<char> {
-    if let Some(char) = arg
-        .as_bytes()
-        .try_into()
-        .ok()
-        .and_then(vd::digraph::find_char)
-    {
-        Some(char)
-    } else if let Some(char) = u32::from_str_radix(arg, 16).ok().and_then(char::from_u32) {
-        Some(char)
-    } else {
-        vd::alias::parse(arg)
-    }
-}
+const USAGE: &str = "usage: vd <DIGRAPH| CODEPOINT | ALIAS>...";
 
-/// Attempts to parse all arguments to the program.
+/// Parses all arguments to this program.
 ///
-/// See also [`parse_arg`].
+/// See also [`vd::parse`].
 ///
 /// # Errors
 ///
@@ -40,15 +16,19 @@ fn parse_arg(arg: &str) -> Option<char> {
 fn parse_args() -> Result<Vec<char>, String> {
     env::args()
         .skip(1)
-        .map(|arg| parse_arg(&arg).ok_or(arg))
+        .map(|arg| vd::parse(&arg).ok_or(arg))
         .collect()
 }
 
 fn main() -> ExitCode {
-    let chars = parse_args();
-    match chars {
+    // Fortunately, "-h" is not a digraph.
+    if env::args().any(|s| s == "-h" || s == "--help") {
+        eprintln!("{USAGE}");
+        return ExitCode::SUCCESS;
+    }
+    match parse_args() {
         Ok(chars) if chars.is_empty() => {
-            eprintln!("usage: vd <DIGRAPH | CODEPOINT | ALIAS>...");
+            eprintln!("{USAGE}");
             ExitCode::FAILURE
         }
         Ok(chars) => {
@@ -62,18 +42,5 @@ fn main() -> ExitCode {
             eprintln!("error: bad arg: {arg}");
             ExitCode::FAILURE
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn parse_arg_works() {
-        assert_eq!(parse_arg("OK"), Some('✓')); // digraph
-        assert_eq!(parse_arg("1fa77"), Some('🩷')); // codepoint
-        assert_eq!(parse_arg("ok"), Some('👌')); // alias
-        assert_eq!(parse_arg("ZZ"), None);
     }
 }

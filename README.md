@@ -1,11 +1,14 @@
 # Vim Digraph
 
-This package provides a library and a command-line tool for expanding Vim
-digraphs or codepoints specified in hexadecimal to Unicode characters. A
-few aliases (such as "down" for "↓") are also supported. This is useful
-for extending other editors to support digraphs by shelling out to the `vd`
-executable. For example, in Helix Normal mode you might run `!vd n?` to insert
-`ñ`, or `!vd cmd` to insert the Command key symbol `⌘`.
+A CLI and library to ease entry of Unicode characters.
+
+The `vd` CLI and library can expand all Vim digraphs, as well as literal
+codepoint values (specified as hexadecimal) and mnemonic aliases (such as
+"thumbsup" for `👍`). This is useful for extending other editors to support
+digraphs by shelling out to the `vd` executable. For example, in Helix  you
+might run `!vd n?` to insert `ñ`, or `!vd shift cmd Q` for `⇧⌘Q`.
+
+This crate has no external dependencies.
 
 ## Command line usage
 
