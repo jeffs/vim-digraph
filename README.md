@@ -28,10 +28,12 @@ vd command shift # ⌘⇧
 ## License
 
 All Rust code in this repository is licensed under [Apache 2.0][], but note
-that the repo also includes a copy of Vim's [`digraph.txt`](./vim/digraph.txt)
+that the repo also includes a copy of Vim's [`digraph.txt`][digraph.txt]
 reference. (A build script reads the digraphs to generate equivalent Rust
 source code.) That one text file is distributed under [OPUBL 1.0]; see
-[`vim/README.md`](./vim/README.md) for details.
+[`vim/README.md`][vim/README.md] for details.
 
 [Apache 2.0]: https://spdx.org/licenses/Apache-2.0.html
 [OPUBL 1.0]: https://spdx.org/licenses/OPUBL-1.0.html
+[digraph.txt]: ./vim/digraph.txt
+[vim/README.md]: ./vim/README.md

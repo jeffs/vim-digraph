@@ -1,3 +1,5 @@
+//! [digraph.txt]: https://github.com/jeffs/vim-digraph/blob/main/vim/digraph.txt
+//! [vim/README.md]: https://github.com/jeffs/vim-digraph/blob/main/vim/README.md
 #![doc = include_str!("../../README.md")]
 
 use std::{env, process::ExitCode};
